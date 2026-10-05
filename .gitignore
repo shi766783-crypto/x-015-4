@@ -1,0 +1,24 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+*.log
+.env
+.env.*
+!.env.example
+coverage/
+.vite/
+.cache/
+.idea/
+.vscode/
+*.swp
+*.tgz
+Thumbs.db
+
+# PINRU annotation baseline
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+!.env.sample
