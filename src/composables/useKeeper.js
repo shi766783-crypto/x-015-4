@@ -3,10 +3,14 @@ import { createStorage } from '../services/storage'
 import { config, seed } from '../data'
 
 const storage = createStorage(config.storageKey, seed)
+let seq = 0
 export function useKeeper() {
   const state = reactive(storage.read())
   const persist = () => storage.write(state)
-  const add = (collection, item) => { state[collection].unshift({ id: `${collection}-${Date.now()}`, createdAt: new Date().toISOString(), ...item }); persist() }
+  const add = (collection, item) => {
+    const id = `${collection}-${Date.now()}-${(seq++).toString(36)}`
+    state[collection].unshift({ id, createdAt: new Date().toISOString(), ...item }); persist()
+  }
   const update = (collection, id, patch) => { const item = state[collection].find((entry) => entry.id === id); if (item) Object.assign(item, patch); persist() }
   const remove = (collection, id) => { state[collection] = state[collection].filter((entry) => entry.id !== id); persist() }
   const reset = () => { Object.assign(state, structuredClone(seed)); persist() }
